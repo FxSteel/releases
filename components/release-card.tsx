@@ -56,7 +56,7 @@ export function ReleaseCard({ release }: ReleaseCardProps) {
             rel="noopener noreferrer"
             className="inline-block mt-6 px-5 py-2 bg-white text-black text-xs font-semibold border border-black rounded-lg hover:bg-gray-50 transition-colors"
           >
-            Read in more detail
+            Leer mas detalles
           </a>
         )}
       </div>
