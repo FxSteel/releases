@@ -2,6 +2,9 @@ import { supabase } from "@/lib/supabase/client";
 import { NewRelease } from "@/types/new-release";
 import { ReleaseCard } from "@/components/release-card";
 
+export const revalidate = 0;
+export const dynamic = "force-dynamic";
+
 export default async function NewReleasesPage() {
   const { data: releases, error } = await supabase
     .from("new_releases")
