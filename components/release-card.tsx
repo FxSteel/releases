@@ -3,10 +3,19 @@ import { NewRelease } from "@/types/new-release";
 
 interface ReleaseCardProps {
   release: NewRelease;
+  lang: string;
 }
 
-export function ReleaseCard({ release }: ReleaseCardProps) {
+const BUTTON_LABELS: Record<string, string> = {
+  ES: "Leer más detalles",
+  EN: "Read more details",
+  PT: "Ler mais detalhes",
+  "PT/BR": "Ler mais detalhes",
+};
+
+export function ReleaseCard({ release, lang }: ReleaseCardProps) {
   const imageUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/new-releases/${release.image_path}`;
+  const buttonLabel = BUTTON_LABELS[lang] ?? BUTTON_LABELS.EN;
 
   return (
     <div className="rounded-xl overflow-hidden bg-white shadow-sm hover:shadow-lg transition-shadow border border-gray-100">
@@ -56,7 +65,7 @@ export function ReleaseCard({ release }: ReleaseCardProps) {
             rel="noopener noreferrer"
             className="inline-block mt-6 px-5 py-2 bg-white text-black text-xs font-semibold border border-black rounded-lg hover:bg-gray-50 transition-colors"
           >
-            Leer mas detalles
+            {buttonLabel}
           </a>
         )}
       </div>
