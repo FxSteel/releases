@@ -1,3 +1,6 @@
+"use client";
+
+import { useRef, useState } from "react";
 import Image from "next/image";
 import { NewRelease } from "@/types/new-release";
 
@@ -31,6 +34,46 @@ function getMediaUrl(mediaPaths: {
 
   const url = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/new-releases/${path}`;
   return { url, type };
+}
+
+function VideoPlayer({ url }: { url: string }) {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  const togglePlay = () => {
+    if (videoRef.current) {
+      if (isPlaying) {
+        videoRef.current.pause();
+      } else {
+        videoRef.current.play();
+      }
+      setIsPlaying(!isPlaying);
+    }
+  };
+
+  return (
+    <div className="rounded-xl border border-[#F4FAFF] bg-[#F4FAFF] p-2">
+      <div className="relative w-full overflow-hidden rounded-lg bg-white" style={{ aspectRatio: "16 / 9" }}>
+        <video
+          ref={videoRef}
+          src={url}
+          className="w-full h-full object-contain"
+          playsInline
+          preload="metadata"
+        />
+
+        <button
+          type="button"
+          onClick={togglePlay}
+          className="absolute inset-0 flex items-center justify-center"
+        >
+          <div className="rounded-full bg-white/90 px-4 py-2 shadow">
+            {isPlaying ? "Pause" : "Play"}
+          </div>
+        </button>
+      </div>
+    </div>
+  );
 }
 
 export function ReleaseCard({ release, lang }: ReleaseCardProps) {
@@ -95,16 +138,13 @@ export function ReleaseCard({ release, lang }: ReleaseCardProps) {
 
   return (
     <div className="rounded-xl overflow-hidden bg-white shadow-sm hover:shadow-lg transition-shadow border border-gray-100">
-      {/* Media Container - 1400 x 732 ratio */}
-      <div className="relative w-full" style={{ aspectRatio: "1400 / 732" }}>
-        {media.type === "video" ? (
-          <video
-            src={media.url}
-            controls
-            preload="metadata"
-            className="w-full h-full object-cover"
-          />
-        ) : (
+      {/* Media Container */}
+      {media.type === "video" ? (
+        <div className="p-4">
+          <VideoPlayer url={media.url} />
+        </div>
+      ) : (
+        <div className="relative w-full" style={{ aspectRatio: "1400 / 732" }}>
           <Image
             src={media.url}
             alt={release.title}
@@ -113,8 +153,8 @@ export function ReleaseCard({ release, lang }: ReleaseCardProps) {
             sizes="100vw"
             priority={false}
           />
-        )}
-      </div>
+        </div>
+      )}
 
       {/* Content Container */}
       <div className="p-6 lg:p-8">
