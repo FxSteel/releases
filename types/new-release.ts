@@ -12,4 +12,5 @@ export interface NewRelease {
   kb_url: string | null;
   order_index: number;
   published: boolean;
+  release_type?: "feature" | "bug";
 }

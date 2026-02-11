@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { Bug } from "lucide-react";
 import { NewRelease } from "@/types/new-release";
 
 interface ReleaseCardProps {
@@ -11,6 +12,12 @@ const BUTTON_LABELS: Record<string, string> = {
   EN: "Read more details",
   PT: "Ler mais detalhes",
   "PT/BR": "Ler mais detalhes",
+};
+
+const BUG_LABEL: Record<string, string> = {
+  ES: "Bug corregido",
+  EN: "Bug fixed",
+  PT: "Bug corrigido",
 };
 
 // Build media URL from Supabase public bucket
@@ -41,6 +48,7 @@ export function ReleaseCard({ release, lang }: ReleaseCardProps) {
   });
 
   const buttonLabel = BUTTON_LABELS[lang] ?? BUTTON_LABELS.EN;
+  const bugLabel = BUG_LABEL[lang] ?? BUG_LABEL.EN;
 
   if (!media) {
     return (
@@ -53,12 +61,23 @@ export function ReleaseCard({ release, lang }: ReleaseCardProps) {
 
         {/* Content Container */}
         <div className="p-6 lg:p-8">
-          {/* Month Label */}
-          {release.month_label && (
-            <p className="text-xs font-semibold text-gray-500 uppercase tracking-widest mb-3">
-              {release.month_label}
-            </p>
-          )}
+          {/* Header: Month Label + Bug Pill */}
+          <div className="flex items-center justify-between mb-3">
+            {/* Month Label */}
+            {release.month_label && (
+              <p className="text-xs font-semibold text-gray-500 uppercase tracking-widest">
+                {release.month_label}
+              </p>
+            )}
+
+            {/* Bug Pill */}
+            {release.release_type === "bug" && (
+              <div className="flex items-center gap-1.5 rounded-full bg-red-50 text-red-600 text-xs font-medium px-3 py-1">
+                <Bug className="h-3.5 w-3.5" />
+                <span>{bugLabel}</span>
+              </div>
+            )}
+          </div>
 
           {/* Title */}
           <h3 className="text-xl lg:text-2xl font-bold text-gray-900 mb-4 leading-tight">
@@ -126,12 +145,23 @@ export function ReleaseCard({ release, lang }: ReleaseCardProps) {
 
       {/* Content Container */}
       <div className="p-6 lg:p-8">
-        {/* Month Label */}
-        {release.month_label && (
-          <p className="text-xs font-semibold text-gray-500 uppercase tracking-widest mb-3">
-            {release.month_label}
-          </p>
-        )}
+        {/* Header: Month Label + Bug Pill */}
+        <div className="flex items-center justify-between mb-3">
+          {/* Month Label */}
+          {release.month_label && (
+            <p className="text-xs font-semibold text-gray-500 uppercase tracking-widest">
+              {release.month_label}
+            </p>
+          )}
+
+          {/* Bug Pill */}
+          {release.release_type === "bug" && (
+            <div className="flex items-center gap-1.5 rounded-full bg-red-50 text-red-600 text-xs font-medium px-3 py-1">
+              <Bug className="h-3.5 w-3.5" />
+              <span>{bugLabel}</span>
+            </div>
+          )}
+        </div>
 
         {/* Title */}
         <h3 className="text-xl lg:text-2xl font-bold text-gray-900 mb-4 leading-tight">
