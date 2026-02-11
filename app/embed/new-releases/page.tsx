@@ -63,7 +63,7 @@ export default async function NewReleasesPage(props: PageProps) {
 
   const { data: releases, error } = await supabase
     .from("new_releases")
-    .select("id, lang, title, month_label, month_date, size, image_path, bullets, kb_url, order_index, published, updated_at")
+    .select("id, lang, title, month_label, month_date, size, image_path, media_path, media_type, bullets, kb_url, order_index, published, updated_at")
     .eq("published", true)
     .eq("lang", normalizedLang)
     .order("month_date", { ascending: false })
