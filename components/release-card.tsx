@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Bug } from "lucide-react";
+import { Bug, BadgeDollarSign } from "lucide-react";
 import { NewRelease } from "@/types/new-release";
 
 interface ReleaseCardProps {
@@ -18,6 +18,12 @@ const BUG_LABEL: Record<string, string> = {
   ES: "Bug corregido",
   EN: "Bug fixed",
   PT: "Bug corrigido",
+};
+
+const COST_LABEL: Record<string, string> = {
+  ES: "Costo adicional",
+  EN: "Paid feature",
+  PT: "Recurso pago",
 };
 
 // Build media URL from Supabase public bucket
@@ -49,6 +55,7 @@ export function ReleaseCard({ release, lang }: ReleaseCardProps) {
 
   const buttonLabel = BUTTON_LABELS[lang] ?? BUTTON_LABELS.EN;
   const bugLabel = BUG_LABEL[lang] ?? BUG_LABEL.EN;
+  const costLabel = COST_LABEL[lang] ?? COST_LABEL.EN;
 
   if (!media) {
     return (
@@ -70,13 +77,24 @@ export function ReleaseCard({ release, lang }: ReleaseCardProps) {
               </p>
             )}
 
-            {/* Bug Pill */}
-            {release.release_type === "bug" && (
-              <div className="flex items-center gap-1.5 rounded-full bg-red-50 text-red-600 text-xs font-medium px-3 py-1">
-                <Bug className="h-3.5 w-3.5" />
-                <span>{bugLabel}</span>
-              </div>
-            )}
+            {/* Pills Container */}
+            <div className="flex items-center gap-2">
+              {/* Bug Pill */}
+              {release.release_type === "bug" && (
+                <div className="flex items-center gap-1.5 rounded-full bg-red-50 text-red-600 text-xs font-medium px-3 py-1">
+                  <Bug className="h-3.5 w-3.5" />
+                  <span>{bugLabel}</span>
+                </div>
+              )}
+
+              {/* Cost Pill */}
+              {release.release_type === "feature" && release.has_cost && (
+                <span className="inline-flex items-center gap-1 px-3 py-1 text-xs font-medium rounded-full border bg-green-50 text-green-700 border-green-200">
+                  <BadgeDollarSign className="w-3 h-3" />
+                  {costLabel}
+                </span>
+              )}
+            </div>
           </div>
 
           {/* Title */}
@@ -154,13 +172,24 @@ export function ReleaseCard({ release, lang }: ReleaseCardProps) {
             </p>
           )}
 
-          {/* Bug Pill */}
-          {release.release_type === "bug" && (
-            <div className="flex items-center gap-1.5 rounded-full bg-red-50 text-red-600 text-xs font-medium px-3 py-1">
-              <Bug className="h-3.5 w-3.5" />
-              <span>{bugLabel}</span>
-            </div>
-          )}
+          {/* Pills Container */}
+          <div className="flex items-center gap-2">
+            {/* Bug Pill */}
+            {release.release_type === "bug" && (
+              <div className="flex items-center gap-1.5 rounded-full bg-red-50 text-red-600 text-xs font-medium px-3 py-1">
+                <Bug className="h-3.5 w-3.5" />
+                <span>{bugLabel}</span>
+              </div>
+            )}
+
+            {/* Cost Pill */}
+            {release.release_type === "feature" && release.has_cost && (
+              <span className="inline-flex items-center gap-1 px-3 py-1 text-xs font-medium rounded-full border bg-green-50 text-green-700 border-green-200">
+                <BadgeDollarSign className="w-3 h-3" />
+                {costLabel}
+              </span>
+            )}
+          </div>
         </div>
 
         {/* Title */}

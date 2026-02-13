@@ -13,4 +13,5 @@ export interface NewRelease {
   order_index: number;
   published: boolean;
   release_type?: "feature" | "bug";
+  has_cost?: boolean;
 }
