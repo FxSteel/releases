@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Bug, BadgeDollarSign } from "lucide-react";
+import { Bug, Tag } from "lucide-react";
 import { NewRelease } from "@/types/new-release";
 
 interface ReleaseCardProps {
@@ -90,7 +90,7 @@ export function ReleaseCard({ release, lang }: ReleaseCardProps) {
               {/* Cost Pill */}
               {release.release_type === "feature" && release.has_cost && (
                 <span className="inline-flex items-center gap-1 px-3 py-1 text-xs font-medium rounded-full border bg-green-50 text-green-700 border-green-200">
-                  <BadgeDollarSign className="w-3 h-3" />
+                  <Tag className="w-4 h-4" />
                   {costLabel}
                 </span>
               )}
@@ -185,7 +185,7 @@ export function ReleaseCard({ release, lang }: ReleaseCardProps) {
             {/* Cost Pill */}
             {release.release_type === "feature" && release.has_cost && (
               <span className="inline-flex items-center gap-1 px-3 py-1 text-xs font-medium rounded-full border bg-green-50 text-green-700 border-green-200">
-                <BadgeDollarSign className="w-3 h-3" />
+                <Tag className="w-4 h-4" />
                 {costLabel}
               </span>
             )}
